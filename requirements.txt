@@ -1,0 +1,14 @@
+matplotlib==3.1.2
+text2digits==0.1.0
+python_sat==0.1.5.dev6
+numpy==1.17.4
+scipy==1.4.1
+pyonmttok==1.17.2
+torchtext==0.6.0
+Unidecode==1.1.1
+pysat==2.1.0
+scipy==1.4.1
+transformers==2.10.0
+wandb==0.9.1
+pillow==7.2.0
+pycnnum==1.0.1

@@ -1,0 +1,10 @@
+frameworks:
+- ["ucca", "eng"]
+- ["ucca", "deu"]
+
+encoder: xlm-roberta-base
+encoder_delay_steps: 250
+warmup_steps: 1000
+n_layers: 2
+char_embedding: false
+label_smoothing: 0.01

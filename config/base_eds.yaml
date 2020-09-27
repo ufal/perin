@@ -1,0 +1,4 @@
+frameworks:
+- ["eds", "eng"]
+
+encoder: xlm-roberta-base

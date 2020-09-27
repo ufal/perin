@@ -1,0 +1,8 @@
+frameworks:
+- ["amr", "eng"]
+- ["amr", "zho"]
+
+encoder: xlm-roberta-base
+accumulation_steps: 4
+batch_size: 8
+query_length: 3
