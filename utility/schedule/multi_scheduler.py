@@ -12,12 +12,6 @@ from utility.schedule.inverse_sqrt_lr import InverseSqrtLr
 
 
 def multi_scheduler_wrapper(optimizer, args):
-    print(len(optimizer.param_groups))
-    print(args.encoder_learning_rate)
-    print(args.layerwise_lr_decay)
-    print(args.warmup_steps)
-    print(args.encoder_delay_steps, flush=True)
-
     return MultiScheduler(
         [
             InverseSqrtLr(
