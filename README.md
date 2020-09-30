@@ -16,7 +16,7 @@
 <p align="center">
   <a href=""><b>Paper</b></a><br>
   <a href=""><b>Pretrained models</b></a><br>
-  <a href=""><b>Interactive demo on Google Colab</b></a>
+  <a href="https://colab.research.google.com/drive/1jqYATZgv1GhEto4eUKH7_-P8VmHIKGMs?usp=sharing"><b>Interactive demo on Google Colab</b></a>
 </p>
 
 <p align="center">
