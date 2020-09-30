@@ -31,6 +31,8 @@ if __name__ == "__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     directory = initialize(args, create_directory=True, init_wandb=False, directory_prefix="inference_")
 
+    eval_script = f"{args.home_directory}/scripts/validation.sh"
+
     dataset = SharedDataset(args)
     dataset.load_datasets(args, 0, 1)
 
@@ -38,7 +40,7 @@ if __name__ == "__main__":
     model.load_state_dict(checkpoint["model"])
 
     print("inference of validation data", flush=True)
-    predict(model, dataset.val, args.validation_data, args, directory, 0, run_evaluation=True, epoch=0)
+    predict(model, dataset.val, args.validation_data, args, directory, 0, eval_script=eval_script, epoch=0)
 
     print("inference of test data", flush=True)
     predict(model, dataset.test, args.test_data, args, f"{directory}/test_predictions", 0)

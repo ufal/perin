@@ -26,7 +26,7 @@ def initialize(args, create_directory: bool, init_wandb: bool, directory_prefix=
 
     if create_directory:
         timestamp = f"{datetime.datetime.today():%m-%d-%y_%H-%M-%S}"
-        directory = f"./outputs/{directory_prefix}{timestamp}"
+        directory = f"{args.home_directory}/outputs/{directory_prefix}{timestamp}" 
         os.mkdir(directory)
         os.mkdir(f"{directory}/test_predictions")
     else:
