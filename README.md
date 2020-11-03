@@ -14,7 +14,7 @@
 <br>
 
 <p align="center">
-  <a href=""><b>Paper</b></a><br>
+  <a href="https://arxiv.org/abs/2011.00758"><b>Paper</b></a><br>
   <a href="https://drive.google.com/drive/folders/11ozu_uo9z3wJwKl1Ei2C3aBNUvb66E-2?usp=sharing"><b>Pretrained models</b></a><br>
   <a href="https://colab.research.google.com/drive/1jqYATZgv1GhEto4eUKH7_-P8VmHIKGMs?usp=sharing"><b>Interactive demo on Google Colab</b></a>
 </p>
@@ -96,4 +96,14 @@ python3 inference.py --checkpoint "path_to_pretrained_model.h5" --data_directory
 
 ## Citation
 
-TBD
+```
+@inproceedings{Sam:Str:20,
+  author = {Samuel, David and Straka, Milan},
+  title = {{{\'U}FAL} at {MRP}~2020:
+           {P}ermutation-Invariant Semantic Parsing in {PERIN}},
+  booktitle = CONLL:20:U,
+  address = L:CONLL:20,
+  pages = {\pages{--}{53}{64}},
+  year = 2020
+}
+```
