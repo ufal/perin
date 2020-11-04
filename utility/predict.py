@@ -10,7 +10,6 @@
 
 import json
 import torch
-import wandb
 
 from data.batch import Batch
 from utility.evaluate import evaluate
@@ -58,6 +57,7 @@ def predict(model, data, input_paths, args, output_directory, gpu, run_evaluatio
                 f.flush()
 
         if args.log_wandb:
+            import wandb
             wandb.save(output_path)
 
         if run_evaluation:

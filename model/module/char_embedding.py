@@ -26,9 +26,10 @@ class CharEmbedding(nn.Module):
     def forward(self, words, sentence_lens, word_lens):
         # input shape: (B, W, C)
         n_words = words.size(1)
+        sentence_lens = sentence_lens.cpu()
         sentence_packed = pack_padded_sequence(words, sentence_lens, batch_first=True)  # shape: (B*W, C)
         lens_packed = pack_padded_sequence(word_lens, sentence_lens, batch_first=True)  # shape: (B*W)
-        word_packed = pack_padded_sequence(sentence_packed.data, lens_packed.data, batch_first=True, enforce_sorted=False)  # shape: (B*W*C)
+        word_packed = pack_padded_sequence(sentence_packed.data, lens_packed.data.cpu(), batch_first=True, enforce_sorted=False)  # shape: (B*W*C)
 
         embedded = self.embedding(word_packed.data)  # shape: (B*W*C, D)
         embedded = self.layer_norm(embedded)  # shape: (B*W*C, D)
