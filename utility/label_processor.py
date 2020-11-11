@@ -21,8 +21,13 @@ class LabelProcessor:
     def make_absolute_label_rule(self, label):
         return f"a│{label.lower()}"
 
-    def gen_all_label_rules(self, forms, lemmas, label, rule_classes, separators, concat=False, allow_copy=False, num_separator='', num_lemmas=False):
+    def gen_all_label_rules(self, forms, lemmas, label, rule_classes, separators, concat=False,
+                            allow_copy=False, num_separator='', num_lemmas=False, ignore_nonalnum=False):
         label = label.lower()
+
+        if ignore_nonalnum:
+            forms = self.filter_out_nonalnum(forms)
+            lemmas = self.filter_out_nonalnum(lemmas)
 
         if "absolute" in rule_classes:
             yield self.make_absolute_label_rule(label)
@@ -37,7 +42,26 @@ class LabelProcessor:
         if "concatenate" in rule_classes:
             yield from self.gen_all_concatenation_rules(forms, label, separators)
 
-    def gen_all_numerical_rules(self, forms, label, divide=bool, num_separator=''):
+    def filter_nonalnum(self, tokens):
+        if len(tokens) == 1:
+            return tokens
+
+        if len(tokens[0]) == 0 or (not tokens[0][0].isalnum() and tokens[0][0] != '-'):
+            if len(tokens[0]) > 1:
+                tokens[0] = tokens[0][1:]
+            else:
+                tokens = tokens[1:]
+        if len(tokens[-1]) == 0 or not tokens[-1][-1].isalnum():
+            if len(tokens[-1]) > 1:
+                tokens[-1] = tokens[-1][:-1]
+            else:
+                tokens = tokens[:-1]
+
+        if len(tokens) == 0:
+            return [""]
+        return tokens
+
+    def gen_all_numerical_rules(self, forms, label, divide: bool, num_separator=''):
         if self.converter.is_number(label, num_separator):
             if divide:
                 for i, result in enumerate(self.converter.to_all_numbers(forms, num_separator)):
@@ -89,7 +113,11 @@ class LabelProcessor:
 
                     yield f"{diff_rule}│{separator}│{prefix}│{suffix}"
 
-    def apply_label_rule(self, forms, lemmas, rule, concat: bool, num_lemmas=False):
+    def apply_label_rule(self, forms, lemmas, rule, concat: bool, num_lemmas=False, ignore_nonalnum=False):
+        if ignore_nonalnum:
+            forms = self.filter_nonalnum(forms)
+            lemmas = self.filter_nonalnum(lemmas)
+
         form = forms[0].lower()
         processor, rule = rule[0], rule[2:]
 
