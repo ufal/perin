@@ -141,6 +141,7 @@ class EDSParser(AbstractParser):
             # rule_classes=["absolute", "relative_forms", "numerical_all"],
             concat=True,
             allow_copy=False,
+            ignore_nonalnum=True,
         )
         return [{"rule": rule, "anchor": node["anchors"]} for rule in set(rules)]
 
