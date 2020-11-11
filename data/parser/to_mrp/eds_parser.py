@@ -32,5 +32,5 @@ class EDSParser(AbstractParser):
             prediction["tokens"],
             prediction["lemmas"],
             concat_rules=True,
-            ignore_nonalnum=True,
+            ignore_nonalnum=self.language != 'zho',
         )
