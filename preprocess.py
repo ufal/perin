@@ -22,7 +22,7 @@ def parse_arguments():
     args = parser.parse_args()
 
     params = Params()
-    params.load(args.config)
+    params.load(args)
     params.load_state_dict(vars(args))
 
     return params
