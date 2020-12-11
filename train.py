@@ -34,10 +34,10 @@ from utility.loss_weight_learner import LossWeightLearner
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default=None, help="path to config file")
-    parser.add_argument("--data_directory", type=str, default="/home/samueld/mrp_update/mrp")
+    parser.add_argument("--data_directory", type=str, default="/home/samuel/personal_work_ms/mrp")
     parser.add_argument("--dist_backend", default="nccl", type=str)
     parser.add_argument("--dist_url", default="localhost", type=str)
-    parser.add_argument("--home_directory", type=str, default="/home/samueld/semantic_parsing")
+    parser.add_argument("--home_directory", type=str, default="/home/samuel/personal_work_ms/perin")
     parser.add_argument("--log_wandb", dest="log_wandb", action="store_true", default=False)
     parser.add_argument("--name", default="default", type=str, help="name of this run.")
     parser.add_argument("--save_checkpoints", dest="save_checkpoints", action="store_true", default=False)

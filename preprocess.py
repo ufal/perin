@@ -17,7 +17,7 @@ from config.params import Params
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default=None, help="path to config file")
-    parser.add_argument("--data_directory", type=str, default="/home/samueld/mrp_update/mrp")
+    parser.add_argument("--data_directory", type=str, default="/home/samuel/personal_work_ms/mrp")
     parser.add_argument("--workers", type=int, default=2, help="number of CPU workers per GPU.")
     args = parser.parse_args()
 

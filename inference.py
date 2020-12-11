@@ -21,7 +21,7 @@ from utility.predict import predict
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint", type=str, required=True)
-    parser.add_argument("--data_directory", type=str, default="/home/samueld/mrp_update/mrp")
+    parser.add_argument("--data_directory", type=str, default="/home/samuel/personal_work_ms/mrp")
     args = parser.parse_args()
 
     checkpoint = torch.load(args.checkpoint)
