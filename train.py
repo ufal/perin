@@ -9,7 +9,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import argparse
-import wandb
 import os
 
 import torch
@@ -86,6 +85,7 @@ def main_worker(gpu, n_gpus_per_node, args):
 
     if is_master:
         if args.log_wandb:
+            import wandb
             wandb.watch(model, log=args.wandb_log_mode)
         print(f"\nmodel: {model}\n")
         log = Log(dataset, model, optimizer, args, directory, log_each=10, log_wandb=args.log_wandb)

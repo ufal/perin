@@ -1,0 +1,6 @@
+frameworks:
+- ["ptg", "eng"]
+- ["ptg", "ces"]
+
+encoder: xlm-roberta-large
+query_length: 3

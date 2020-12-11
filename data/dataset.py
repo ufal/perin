@@ -223,13 +223,13 @@ class Dataset:
         self.train.examples = self.train.examples[:len(self.train.examples) // n_gpus * n_gpus]
         self.train.examples = self.train.examples[gpu * len(self.train.examples) // n_gpus: (gpu + 1) * len(self.train.examples) // n_gpus]
 
-    def relative_output_tensor_to_str(self, relative_label, anchors, tokens, lemmas, concat_rules: bool, num_lemmas=False):
+    def relative_output_tensor_to_str(self, relative_label, anchors, tokens, lemmas, concat_rules: bool, num_lemmas=False, ignore_nonalnum=False):
         relative_label_str = self.relative_label_field.vocab.itos[relative_label]
 
         input_strings = [self.every_word_input_field.vocab.itos[i.item()] for i in tokens[anchors]]
         lemma_strings = [self.every_lemma_field.vocab.itos[i.item()] for i in lemmas[anchors]]
 
-        absolute_label = self.processor.apply_label_rule(input_strings, lemma_strings, relative_label_str, concat_rules, num_lemmas)
+        absolute_label = self.processor.apply_label_rule(input_strings, lemma_strings, relative_label_str, concat_rules, num_lemmas, ignore_nonalnum)
 
         if absolute_label is None:
             absolute_label = "<none>"

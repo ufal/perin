@@ -15,7 +15,6 @@ from functools import reduce
 import operator
 import multiprocessing as mp
 import time
-from pysat.examples.hitman import Hitman
 from transformers import AutoTokenizer
 
 from utility.label_processor import LabelProcessor
@@ -300,6 +299,7 @@ def get_smallest_rule_set(data, approximate: bool):
     if approximate:
         return greedy_hitman(data)
 
+    from pysat.examples.hitman import Hitman
     start_time = time.time()
 
     sets = [{rule["rule"] for rule in node["possible rules"]} for node, _ in node_generator(data)]

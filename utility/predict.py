@@ -11,7 +11,7 @@
 import os
 import json
 import torch
-import wandb
+
 from PIL import Image
 from subprocess import run
 
@@ -62,6 +62,7 @@ def predict(model, data, input_paths, args, output_directory, gpu, eval_script=N
                 f.flush()
 
         if args.log_wandb:
+            import wandb
             wandb.save(output_path)
 
         if visual_script is not None:

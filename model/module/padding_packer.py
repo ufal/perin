@@ -18,7 +18,7 @@ class PaddingPacker(nn.Module):
 
     def forward(self, x, lengths=None, total_length=None):
         if lengths is not None:
-            package = nn.utils.rnn.pack_padded_sequence(x, lengths, batch_first=True)
+            package = nn.utils.rnn.pack_padded_sequence(x, lengths.cpu(), batch_first=True)
             x = package.data
 
         x = self.module(x)

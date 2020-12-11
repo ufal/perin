@@ -10,7 +10,6 @@
 
 import random
 import torch
-import wandb
 import datetime
 import os
 
@@ -33,6 +32,7 @@ def initialize(args, create_directory: bool, init_wandb: bool, directory_prefix=
         directory = None
 
     if init_wandb:
+        import wandb
         tags = {x for f in args.frameworks for x in f}
         wandb.init(name=args.name, config=args.get_hyperparameters(), project="amr_semantic_parsing", tags=list(tags))
         args.get_hyperparameters().save("config.json")

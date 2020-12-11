@@ -10,7 +10,6 @@
 
 from utility.loading_bar import LoadingBar
 import time
-import wandb
 import os
 import json
 import torch
@@ -28,6 +27,8 @@ class Log:
         self.log_each = log_each
         self.epoch = initial_epoch
         self.log_wandb = log_wandb
+        if self.log_wandb:
+            globals()["wandb"] = __import__("wandb")  # ugly way to not require wandb if not needed
 
         self.directory = directory
         self.evaluation_results = f"{directory}/results_{{0}}_{{1}}.json"
