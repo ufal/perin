@@ -37,6 +37,7 @@ def parse_arguments():
     parser.add_argument("--data_directory", type=str, default="/home/samueld/mrp_update/mrp")
     parser.add_argument("--dist_backend", default="nccl", type=str)
     parser.add_argument("--dist_url", default="localhost", type=str)
+    parser.add_argument("--home_directory", type=str, default="/home/samueld/semantic_parsing")
     parser.add_argument("--log_wandb", dest="log_wandb", action="store_true", default=False)
     parser.add_argument("--name", default="default", type=str, help="name of this run.")
     parser.add_argument("--save_checkpoints", dest="save_checkpoints", action="store_true", default=False)
@@ -62,6 +63,9 @@ def main_worker(gpu, n_gpus_per_node, args):
     os.environ["MASTER_ADDR"] = "localhost"
     if "MASTER_PORT" not in os.environ:
         os.environ["MASTER_PORT"] = "12345"
+
+    eval_script = f"{args.home_directory}/scripts/validation.sh"
+    visual_script = f"{args.home_directory}/scripts/visualize.sh"
 
     if args.distributed:
         dist.init_process_group(backend=args.dist_backend, init_method="env://", world_size=n_gpus_per_node, rank=gpu)
@@ -143,30 +147,30 @@ def main_worker(gpu, n_gpus_per_node, args):
         #
         # VALIDATION CROSS-ENTROPIES
         #
-        model.eval()
-        log.eval(len_dataset=dataset.val_size)
+        # model.eval()
+        # log.eval(len_dataset=dataset.val_size)
 
-        with torch.no_grad():
-            for batch in dataset.val:
-                try:
-                    _, _, stats = model(Batch.to(batch, gpu))
+        # with torch.no_grad():
+        #     for batch in dataset.val:
+        #         try:
+        #             _, _, stats = model(Batch.to(batch, gpu))
 
-                    batch_size = batch["every_input"][0].size(0)
-                    log(batch_size, stats, args.frameworks)
-                except RuntimeError as e:
-                    if 'out of memory' in str(e):
-                        print('| WARNING: ran out of memory, skipping batch')
-                        if hasattr(torch.cuda, 'empty_cache'):
-                            torch.cuda.empty_cache()
-                    else:
-                        raise e
+        #             batch_size = batch["every_input"][0].size(0)
+        #             log(batch_size, stats, args.frameworks)
+        #         except RuntimeError as e:
+        #             if 'out of memory' in str(e):
+        #                 print('| WARNING: ran out of memory, skipping batch')
+        #                 if hasattr(torch.cuda, 'empty_cache'):
+        #                     torch.cuda.empty_cache()
+        #             else:
+        #                 raise e
 
-        log.flush()
+        # log.flush()
 
         #
         # VALIDATION MRP-SCORES
         #
-        predict(raw_model, dataset.val, args.validation_data, args, directory, gpu, run_evaluation=True, epoch=epoch)
+        predict(raw_model, dataset.val, args.validation_data, args, directory, gpu, eval_script=eval_script, visual_script=visual_script, epoch=epoch)
 
     #
     # TEST PREDICTION
