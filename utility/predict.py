@@ -65,15 +65,15 @@ def predict(model, data, input_paths, args, output_directory, gpu, eval_script=N
             import wandb
             wandb.save(output_path)
 
-        if visual_script is not None:
-            image_name = f"sample_{framework}_{language}"
-            n_samples = 6
-            run([visual_script, str(n_samples), output_path, f"{output_directory}/{image_name}", framework, input_files[(framework, language)]], cwd=os.getcwd())
+        # if visual_script is not None:
+        #     image_name = f"sample_{framework}_{language}"
+        #     n_samples = 6
+        #     run([visual_script, str(n_samples), output_path, f"{output_directory}/{image_name}", framework, input_files[(framework, language)]], cwd=os.getcwd())
 
-            images = [Image.open(f"{output_directory}/{image_name}{i}.png") for i in range(n_samples)]
-            images = [wandb.Image(resize_to_square(image, 1024)) for image in images]
+        #     images = [Image.open(f"{output_directory}/{image_name}{i}.png") for i in range(n_samples)]
+        #     images = [wandb.Image(resize_to_square(image, 1024)) for image in images]
 
-            wandb.log({f"{framework}-{language} prediction #{i}": image for i, image in enumerate(images)})
+        #     wandb.log({f"{framework}-{language} prediction #{i}": image for i, image in enumerate(images)})
 
         if eval_script is not None:
             result = run(
