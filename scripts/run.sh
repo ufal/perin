@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source bin/activate
+
 ORIGINAL_HOME=$PWD
 TMP_DIR=$(mktemp -d -p ../copies)
 echo $TMP_DIR
