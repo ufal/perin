@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source bin/activate
+nvidia-smi
 
 ORIGINAL_HOME=$PWD
 TMP_DIR=$(mktemp -d -p ../copies)
