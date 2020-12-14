@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 class AbstractParser:
-    def __init__(self, dataset, language):
+    def __init__(self, args, dataset, language):
         self.dataset = dataset
         self.language = language
 

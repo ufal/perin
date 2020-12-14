@@ -13,9 +13,9 @@ from utility.frame_predictor import FramePredictor
 
 
 class PTGParser(AbstractParser):
-    def __init__(self, dataset, language):
+    def __init__(self, args, dataset, language):
         super().__init__(dataset, language)
-        self.frame_predictor = FramePredictor(language)
+        self.frame_predictor = FramePredictor(args, language)
 
     def parse(self, prediction):
         output = {}

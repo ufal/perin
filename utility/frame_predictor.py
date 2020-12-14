@@ -23,8 +23,8 @@ FRAME_PREFIXES = {
 
 
 class FramePredictor:
-    def __init__(self, language):
-        self.load(VALLEX_PATHS[language])
+    def __init__(self, args, language):
+        self.load(args.home_directory + '/' + VALLEX_PATHS[language])
         self.frame_prefix = FRAME_PREFIXES[language]
 
     def load(self, path):

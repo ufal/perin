@@ -115,7 +115,7 @@ class Dataset:
             ("eds", "eng"): EDSParser,
             ("ptg", "eng"): PTGParser, ("ptg", "ces"): PTGParser,
             ("ucca", "eng"): UCCAParser, ("ucca", "deu"): UCCAParser,
-        }[(framework, language)]
+        }[(args, framework, language)]
 
         self.train = dataset(
             args, framework, language, "training",
