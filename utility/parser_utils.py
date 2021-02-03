@@ -140,9 +140,9 @@ def add_companion(data, path, language: str):
 
 def add_fake_companion(data, language):
     tokenizer = Tokenizer(data.values(), mode="aggressive")
-    
+
     for sample in list(data.values()):
-        sample[l["id"]]["sentence"] = sample["input"]
+        sample["sentence"] = sample["input"]
 
         token_objects = tokenizer.create_tokens(sample)
         token_objects = [t for t in token_objects if t["token"] is not None]
