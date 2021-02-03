@@ -56,6 +56,10 @@ def load_dataset(path, framework, language=None):
 
 
 def add_companion(data, path, language: str):
+    if path is None:
+        add_fake_companion(data, language)
+        return
+
     companion = {}
     with open(path, encoding="utf8") as f:
         for line in f.readlines():
@@ -132,6 +136,23 @@ def add_companion(data, path, language: str):
             error_count += 1
 
     print(f"{error_count} erroneously matched sentences with companion")
+
+
+def add_fake_companion(data, language):
+    tokenizer = Tokenizer(data.values(), mode="aggressive")
+    
+    for sample in list(data.values()):
+        sample[l["id"]]["sentence"] = sample["input"]
+
+        token_objects = tokenizer.create_tokens(sample)
+        token_objects = [t for t in token_objects if t["token"] is not None]
+
+        tokens = [t["token"]["word"] if isinstance(t["token"], dict) else t["token"] for t in token_objects]
+        spans = [t["span"] for t in token_objects]
+
+        sample["input"] = tokens
+        sample["lemmas"] = tokens
+        sample["token anchors"] = spans
 
 
 def create_token_anchors(sentence):

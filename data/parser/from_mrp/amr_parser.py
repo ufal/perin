@@ -124,7 +124,7 @@ class AMRParser(AbstractParser):
                 sentence["lemmas"][anchor:],
                 node["label"],
                 separators=['', '-'],
-                rule_classes=["relative_forms", "relative_lemmas", "numerical_divide", "concatenate"],
+                rule_classes=["relative_forms", "numerical_divide", "concatenate"],
                 concat=False,
                 allow_copy=False,
             )
