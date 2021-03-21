@@ -60,7 +60,7 @@ class AbstractHead(nn.Module):
 
         return self.loss(output, batch, matching, decoder_mask)
 
-    def predict(self, encoder_output, decoder_output, encoder_mask, decoder_mask, batch):
+    def predict(self, encoder_output, decoder_output, encoder_mask, decoder_mask, batch, **kwargs):
         every_input, word_lens = batch["every_input"]
         decoder_lens = self.query_length * word_lens
         batch_size = every_input.size(0)
@@ -103,6 +103,7 @@ class AbstractHead(nn.Module):
                 "lemmas": batch["every_lemma"][b, : word_lens[b]].cpu(),
                 "tokens": batch["every_input"][0][b, : word_lens[b]].cpu(),
                 "token intervals": batch["token_intervals"][b, :, :].cpu(),
+                **kwargs
             })
             for b in range(batch_size)
         ]

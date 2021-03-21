@@ -12,11 +12,12 @@ from data.parser.to_mrp.abstract_parser import AbstractParser
 
 
 class AMRParser(AbstractParser):
-    def parse(self, prediction):
+    def parse(self, prediction, approximate_anchors=False):
         output = {}
 
         output["id"] = self.dataset.id_field.vocab.itos[prediction["id"].item()]
         output["nodes"] = self.create_nodes(prediction)
+        output["nodes"] = self.create_anchors(prediction, output["nodes"])
         output["nodes"] = self.create_properties(prediction, output["nodes"])
         output["edges"] = self.create_edges(prediction, output["nodes"])
         output["tops"] = self.create_top(prediction, output["nodes"])
@@ -31,3 +32,8 @@ class AMRParser(AbstractParser):
             prediction["lemmas"],
             concat_rules=False,
         )
+
+    def create_anchors(self, prediction, nodes):
+        for i, node in enumerate(nodes):
+            node["anchors"] = [prediction["token intervals"][prediction["anchors"][i][0], :]]
+        return nodes

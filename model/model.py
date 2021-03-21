@@ -51,7 +51,7 @@ class Model(nn.Module):
 
         self.share_weights()
 
-    def forward(self, batch, inference=False):
+    def forward(self, batch, inference=False, **kwargs):
         every_input, word_lens = batch["every_input"]
         decoder_lens = self.query_length * word_lens
         batch_size, input_len = every_input.size(0), every_input.size(1)
@@ -81,7 +81,7 @@ class Model(nn.Module):
                 indices = (batch["framework"] == i).nonzero(as_tuple=False).flatten()
                 if indices.size(0) == 0:
                     continue
-                output[self.dataset.id_to_framework[i]] = head.predict(*select_inputs(indices))
+                output[self.dataset.id_to_framework[i]] = head.predict(*select_inputs(indices), **kwargs)
 
             return output
 
