@@ -91,20 +91,22 @@ class AbstractHead(nn.Module):
         edge_presence, edge_labels, edge_attributes = self.forward_edge(decoder_output)
 
         outputs = [
-            self.parser.parse({
-                "labels": labels[b],
-                "anchors": anchors[b],
-                "properties": self.inference_property(properties, b),
-                "tops": self.inference_top(tops, b),
-                "edge presence": self.inference_edge_presence(edge_presence, b),
-                "edge labels": self.inference_edge_label(edge_labels, b),
-                "edge attributes": self.inference_edge_attribute(edge_attributes, b),
-                "id": batch["id"][b].cpu(),
-                "lemmas": batch["every_lemma"][b, : word_lens[b]].cpu(),
-                "tokens": batch["every_input"][0][b, : word_lens[b]].cpu(),
-                "token intervals": batch["token_intervals"][b, :, :].cpu(),
+            self.parser.parse(
+                {
+                    "labels": labels[b],
+                    "anchors": anchors[b],
+                    "properties": self.inference_property(properties, b),
+                    "tops": self.inference_top(tops, b),
+                    "edge presence": self.inference_edge_presence(edge_presence, b),
+                    "edge labels": self.inference_edge_label(edge_labels, b),
+                    "edge attributes": self.inference_edge_attribute(edge_attributes, b),
+                    "id": batch["id"][b].cpu(),
+                    "lemmas": batch["every_lemma"][b, : word_lens[b]].cpu(),
+                    "tokens": batch["every_input"][0][b, : word_lens[b]].cpu(),
+                    "token intervals": batch["token_intervals"][b, :, :].cpu(),
+                },
                 **kwargs
-            })
+            )
             for b in range(batch_size)
         ]
 
