@@ -136,7 +136,7 @@ class EDSParser(AbstractParser):
             [sentence["lemmas"][anchor] for anchor in anchors],
             node["label"],
             separators=['', '+', '-'],
-            rule_classes=["absolute", "relative_forms", "numerical_all"],
+            rule_classes=["absolute", "relative_forms", "relative_lemmas", "numerical_all"],
             # separators=['', '-'],
             # rule_classes=["absolute", "relative_forms", "numerical_all"],
             concat=True,

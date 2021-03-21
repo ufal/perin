@@ -92,15 +92,15 @@ class Params:
 
         # path to udpipe companion data
         self.companion_data = {
-            ("amr", "eng"): None,
-            ("amr", "zho"): None,
-            ("drg", "eng"): None,
-            ("drg", "deu"): None,
-            ("eds", "eng"): None,
-            ("ptg", "eng"): None,
-            ("ptg", "ces"): None,
-            ("ucca", "eng"): None,
-            ("ucca", "deu"): None,
+            ("amr", "eng"): f"{base_dir}/2020/cf/companion/combined_udpipe.mrp",
+            ("amr", "zho"): f"{base_dir}/2020/cl/companion/combined_zho.mrp",
+            ("drg", "eng"): f"{base_dir}/2020/cf/companion/combined_udpipe.mrp",
+            ("drg", "deu"): f"{base_dir}/2020/cl/companion/combined_deu_translated.mrp",
+            ("eds", "eng"): f"{base_dir}/2020/cf/companion/combined_udpipe.mrp",
+            ("ptg", "eng"): f"{base_dir}/2020/cf/companion/combined_udpipe.mrp",
+            ("ptg", "ces"): f"{base_dir}/2020/cl/companion/combined_ces.mrp",
+            ("ucca", "eng"): f"{base_dir}/2020/cf/companion/combined_udpipe.mrp",
+            ("ucca", "deu"): f"{base_dir}/2020/cl/companion/combined_deu.mrp",
         }
 
         return self

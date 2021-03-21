@@ -145,7 +145,7 @@ class PTGParser(AbstractParser):
             [sentence["lemmas"][anchor] for anchor in anchors],
             node["label"],
             separators=['', '_'],
-            rule_classes=["absolute", "relative_forms", "numerical_all"],
+            rule_classes=["absolute", "relative_forms", "relative_lemmas", "numerical_all"],
             num_separator='_',
             concat=True,
             allow_copy=False,

@@ -87,6 +87,8 @@ To train a shared model for the English and Chinese AMR, run the following scrip
 python3 train.py --config config/base_amr.yaml --data_directory ${data_dir} --save_checkpoints --log_wandb
 ```
 
+Note that the companion file in needed only to provide the lemmatized forms, so it's also possible to train without it (but that will most likely negatively influence the accuracy of label prediction) -- just set the companion paths to `None`.
+
 ### :feet: &nbsp; Inference
 
 You can run the inference on the validation and test datasets by running:
