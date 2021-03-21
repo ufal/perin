@@ -17,7 +17,8 @@ class AMRParser(AbstractParser):
 
         output["id"] = self.dataset.id_field.vocab.itos[prediction["id"].item()]
         output["nodes"] = self.create_nodes(prediction)
-        output["nodes"] = self.create_anchors(prediction, output["nodes"])
+        if approximate_anchors:
+            output["nodes"] = self.create_anchors(prediction, output["nodes"])
         output["nodes"] = self.create_properties(prediction, output["nodes"])
         output["edges"] = self.create_edges(prediction, output["nodes"])
         output["tops"] = self.create_top(prediction, output["nodes"])
@@ -36,4 +37,6 @@ class AMRParser(AbstractParser):
     def create_anchors(self, prediction, nodes):
         for i, node in enumerate(nodes):
             node["anchors"] = [prediction["token intervals"][prediction["anchors"][i][0], :]]
+            node["anchors"] = [{"from": f.item(), "to": t.item()} for f, t in node["anchors"]]
+            node["anchors"] = sorted(node["anchors"], key=lambda a: a["from"])
         return nodes
