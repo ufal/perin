@@ -26,8 +26,8 @@ class LabelProcessor:
         label = label.lower()
 
         if ignore_nonalnum:
-            forms = self.filter_out_nonalnum(forms)
-            lemmas = self.filter_out_nonalnum(lemmas)
+            forms = self.filter_nonalnum(forms)
+            lemmas = self.filter_nonalnum(lemmas)
 
         if "absolute" in rule_classes:
             yield self.make_absolute_label_rule(label)
