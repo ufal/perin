@@ -13,15 +13,33 @@ import requests
 
 class UDPipeWrapper:
     def __init__(self, language="eng"):
-        url = "http://lindat.mff.cuni.cz/services/udpipe/api/process"
-        self.request = f"{url}?tokenizer&tagger&model={language}&data={{0}}"
+        self.url = "http://lindat.mff.cuni.cz/services/udpipe/api/process"
+        self.base_request = {
+            "tokenizer": "presegmented",
+            "tagger": True,
+            "model": language,
+        }
 
-    def lemmatize(self, sentence):
-        response = requests.get(self.request.format(sentence)).json()
+    def lemmatize(self, sentences):
+        request = {"data": '\n'.join(sentences), **self.base_request}
+        response = requests.post(self.url, request)
 
-        lines = response["result"].split('\n')
-        words = [line.split('\t') for line in lines if len(line) > 0 and not line.startswith('#')]
-        tokens = [word[1] for word in words]
-        lemmas = [word[2] for word in words]
+        try:
+            response.raise_for_status()
+        except requests.HTTPError:
+            if len(sentences) == 1:
+                raise Exception(f"Unable to parse sentence {sentences[0]} with UDPipe.")
+            return self.lemmatize(sentences[:len(sentences) // 2]) + self.lemmatize(sentences[len(sentences) // 2:])
 
-        return tokens, lemmas
+        response = response.json()
+
+        outputs = []
+        for sentence in response["result"].split("\n\n"):
+            words = [word for word in sentence.split('\n') if len(word) > 0 and not word.startswith('#')]
+            words = [word.split('\t') for word in words]
+            tokens = [word[1] for word in words]
+            lemmas = [word[2] for word in words]
+
+            outputs.append({"tokens": tokens, "lemmas": lemmas})
+
+        return outputs[:-1]

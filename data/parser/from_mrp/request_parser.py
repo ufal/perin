@@ -18,8 +18,13 @@ class RequestParser(AbstractParser):
         udpipe = UDPipeWrapper(language)
 
         self.data = {i: {"id": str(i), "sentence": sentence} for i, sentence in enumerate(sentences)}
-        for example in self.data.values():
-            example["input"], example["lemmas"] = udpipe.lemmatize(example["sentence"])
+
+        sentences = [example["sentence"] for example in self.data.values()]
+        response = udpipe.lemmatize(sentences)
+
+        for example, parsed_outputs in zip(self.data.values(), response):
+            example["input"] = parsed_outputs["tokens"]
+            example["lemmas"] = parsed_outputs["lemmas"]
             utils.create_token_anchors(example)
 
         utils.tokenize(self.data, mode="aggressive")
