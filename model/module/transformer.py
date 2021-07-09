@@ -9,7 +9,11 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import torch.nn as nn
-from model.transformers.modeling_bert import checkpoint
+
+
+def checkpoint(module, *args, **kwargs):
+    dummy = torch.empty(1, requires_grad=True)
+    return torch.utils.checkpoint.checkpoint(lambda d, *a, **k: module(*a, **k), dummy, *args, **kwargs)
 
 
 class Attention(nn.Module):

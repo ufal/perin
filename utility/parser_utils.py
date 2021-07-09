@@ -23,6 +23,9 @@ from utility.permutation_generator import get_permutations
 from utility.bert_tokenizer import bert_tokenizer
 from utility.greedy_hitman import greedy_hitman
 
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "true"
+
 
 def load_dataset(path, framework, language=None):
     def condition(s, f, l):

@@ -14,9 +14,18 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from model.transformers.modeling_bert import BertModel
-from model.transformers.modeling_roberta import RobertaModel
+from transformers.models.bert import BertModel
+from transformers.models.xlm_roberta import XLMRobertaModel
 from model.module.char_embedding import CharEmbedding
+
+
+class LambdaModule(nn.Module):
+    def __init__(self, lambda_f):
+        super(LambdaModule, self).__init__()
+        self.lambda_f = lambda_f
+
+    def forward(self, **kwargs):
+        return self.lambda_f(**kwargs)
 
 
 class WordDropout(nn.Dropout):
@@ -60,13 +69,14 @@ class Encoder(nn.Module):
         self.width_factor = args.query_length
 
         if "roberta" in args.encoder.lower():
-            self.bert = RobertaModel.from_pretrained(args.encoder, output_hidden_states=True)
-            if args.encoder_freeze_embedding:
-                self.bert.embeddings.requires_grad_(False)
+            self.bert = XLMRobertaModel.from_pretrained(args.encoder, gradient_checkpointing=True, add_pooling_layer=False)
         else:
-            self.bert = BertModel.from_pretrained(args.encoder, output_hidden_states=True)
+            self.bert = BertModel.from_pretrained(args.encoder, gradient_checkpointing=True, add_pooling_layer=False)
 
-        self.bert.pooler = nn.Identity()  # effectively delete the pooler (for DistributedDataParallel)
+        if args.encoder_freeze_embedding:
+            self.bert.frozen_embedding = self.bert.embeddings
+            self.bert.frozen_embedding.requires_grad_(False)
+            self.bert.embeddings = LambdaModule(lambda **kwargs: self.bert.frozen_embedding(**kwargs).requires_grad_(True))  # turn on grad for the subsequent gradient checkpointing
 
         self.use_char_embedding = args.char_embedding
         if self.use_char_embedding:
@@ -82,7 +92,7 @@ class Encoder(nn.Module):
         tokens, mask = bert_input
         batch_size = tokens.size(0)
 
-        encoded = self.bert(tokens, attention_mask=mask)[2][1:]
+        encoded = self.bert(tokens, attention_mask=mask, output_hidden_states=True).hidden_states[1:]
         encoded = torch.stack(encoded, dim=0)  # shape: (12, B, T, H)
         encoded = self.encoded_layer_norm(encoded)
 

@@ -13,7 +13,7 @@ import torch.nn as nn
 
 from model.module.encoder import Encoder
 
-from model.transformers.base import Decoder
+from model.module.transformer import Decoder
 from model.head.amr_head import AMRHead
 from model.head.drg_head import DRGHead
 from model.head.eds_head import EDSHead
