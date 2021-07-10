@@ -19,15 +19,6 @@ from transformers.models.xlm_roberta import XLMRobertaModel
 from model.module.char_embedding import CharEmbedding
 
 
-class LambdaModule(nn.Module):
-    def __init__(self, lambda_f):
-        super(LambdaModule, self).__init__()
-        self.lambda_f = lambda_f
-
-    def forward(self, **kwargs):
-        return self.lambda_f(**kwargs)
-
-
 class WordDropout(nn.Dropout):
     def forward(self, input_tensor):
         if self.p == 0:
