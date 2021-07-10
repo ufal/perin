@@ -70,13 +70,11 @@ class Encoder(nn.Module):
 
         if "roberta" in args.encoder.lower():
             self.bert = XLMRobertaModel.from_pretrained(args.encoder, gradient_checkpointing=True, add_pooling_layer=False)
+            if args.encoder_freeze_embedding:
+                self.bert.embeddings.requires_grad_(False)
+                self.bert.embeddings.LayerNorm.requires_grad_(True)
         else:
             self.bert = BertModel.from_pretrained(args.encoder, gradient_checkpointing=True, add_pooling_layer=False)
-
-        if args.encoder_freeze_embedding:
-            self.bert.frozen_embedding = self.bert.embeddings
-            self.bert.frozen_embedding.requires_grad_(False)
-            self.bert.embeddings = LambdaModule(lambda **kwargs: self.bert.frozen_embedding(**kwargs).requires_grad_(True))  # turn on grad for the subsequent gradient checkpointing
 
         self.use_char_embedding = args.char_embedding
         if self.use_char_embedding:
