@@ -231,7 +231,7 @@ def anchor_ids_from_intervals(data):
 
 
 def tokenize(data, mode="aggressive"):
-    tokenizer = Tokenizer(data.values(), mode="aggressive")
+    tokenizer = Tokenizer(data.values(), mode=mode)
     for key in data.keys():
         data[key] = tokenizer(data[key])
         data[key] = tokenizer.clean(data[key])
