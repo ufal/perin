@@ -43,7 +43,7 @@ _______
 
 <br>
 
-This repository provides the official PyTorch implementation of our paper "[ÚFAL at MRP 2020: Permutation-invariant Semantic Parsing in PERIN]()" together with [pretrained *base* models](https://drive.google.com/drive/folders/11ozu_uo9z3wJwKl1Ei2C3aBNUvb66E-2?usp=sharing) for all five frameworks from [MRP 2020](http://mrp.nlpl.eu/2020/): AMR, DRG, EDS, PTG and UCCA.
+This repository provides the official PyTorch implementation of our paper "[ÚFAL at MRP 2020: Permutation-invariant Semantic Parsing in PERIN](https://arxiv.org/abs/2011.00758)" together with [pretrained *base* models](https://drive.google.com/drive/folders/11ozu_uo9z3wJwKl1Ei2C3aBNUvb66E-2?usp=sharing) for all five frameworks from [MRP 2020](http://mrp.nlpl.eu/2020/): AMR, DRG, EDS, PTG and UCCA.
 
 _______
 
