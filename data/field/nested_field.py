@@ -9,10 +9,10 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import torch
-import torchtext
+from data.field.mini_torchtext.field import NestedField as TorchTextNestedField
 
 
-class NestedField(torchtext.data.NestedField):
+class NestedField(TorchTextNestedField):
     def pad(self, example):
         self.nesting_field.include_lengths = self.include_lengths
         if not self.include_lengths:

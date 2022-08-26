@@ -11,8 +11,8 @@
 from collections import Counter
 
 import torch
-from torchtext.vocab import Vocab
 
+from data.field.mini_torchtext.vocab import Vocab
 from data.dataset import Dataset, Collate
 from data.batch import Batch
 from data.concat_dataset import ConcatDataset

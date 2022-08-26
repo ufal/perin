@@ -1,5 +1,5 @@
 from functools import reduce
-from torchtext.data import Example
+from data.field.mini_torchtext.example import Example
 
 
 def example_from_json(obj, fields):

@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import torch
-from torchtext.data import RawField
+from data.field.mini_torchtext.field import RawField
 
 
 class EdgePermutationField(RawField):

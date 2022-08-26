@@ -11,9 +11,9 @@
 import pickle
 
 import torch
-import torchtext
 from random import Random
 
+from data.field.mini_torchtext.field import Field as TorchTextField
 from data.parser.from_mrp.amr_parser import AMRParser
 from data.parser.from_mrp.drg_parser import DRGParser
 from data.parser.from_mrp.eds_parser import EDSParser
@@ -55,10 +55,10 @@ class Dataset:
         self.every_word_input_field = Field(lower=True, init_token=self.sos, eos_token=self.eos, batch_first=True, include_lengths=True)
         self.every_lemma_field = Field(lower=True, init_token=self.sos, eos_token=self.eos, batch_first=True)
 
-        char_form_nesting = torchtext.data.Field(tokenize=char_tokenize, init_token=self.sos, eos_token=self.eos, batch_first=True)
+        char_form_nesting = TorchTextField(tokenize=char_tokenize, init_token=self.sos, eos_token=self.eos, batch_first=True)
         self.char_form_field = NestedField(char_form_nesting, include_lengths=True)
 
-        char_lemma_nesting = torchtext.data.Field(tokenize=char_tokenize, init_token=self.sos, eos_token=self.eos, batch_first=True)
+        char_lemma_nesting = TorchTextField(tokenize=char_tokenize, init_token=self.sos, eos_token=self.eos, batch_first=True)
         self.char_lemma_field = NestedField(char_lemma_nesting, include_lengths=True)
 
         self.relative_label_field = RelativeLabelField(
